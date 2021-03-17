@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      color.belongsToMany(models.page, {
+        onDelete: 'CASCADE',
+        through: 'highlights',
+        foreignKey: {
+          allowNull: false
+        }
+      })
     }
   };
   color.init({

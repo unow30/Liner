@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      highlights.belongsTo(models.page, {
+        foreignKey: 'pageId',
+        onDelete: 'CASCADE',
+      })
+      highlights.belongsTo(models.color, {
+        foreignKey: 'colorId',
+        onDelete: 'CASCADE',
+      })
     }
   };
   highlights.init({

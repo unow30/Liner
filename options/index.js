@@ -1,5 +1,8 @@
 module.exports = {
     corsConfig: require('./corsConfig'),
-    helmetConfig: require('./helmetConfig')
-
+    userOptions: require('./userOptions'),
+    themeOptions: require('./themeOptions'),
+    colorOptions: require('./colorOptions'),
+    pageOptions: require('./pageOptions'),
+    highlightOptions: require('./highlightOptions')
 }
