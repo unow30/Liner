@@ -1,7 +1,6 @@
 const {
     isAuthorized
 } = require('../tokenFunctions')
-
 const { Page, Color, Highlight } = require('../../models')
 const { checkValidColor } = require('../../options/colorOptions')
 const { pageCreateOptions } = require('../../options/pageOptions')
