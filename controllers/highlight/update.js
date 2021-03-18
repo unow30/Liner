@@ -1,28 +1,40 @@
 const {
     isAuthorized
 } = require('../tokenFunctions')
-
+const { findColorIdAndPageId } = require('../../options/highlightOptions')
+const { findColorId } = require('../../options/colorOptions')
 const { Page, Color, Highlight } = require('../../models')
-module.exports = (req, res) => {
-    // const { highlightId, userId, colorHex, text } = req.body
-    // const { id, themeId } = isAuthorized(req)
+module.exports = async (req, res) => {
+    const { userId, colorHex, text } = req.body
+    const highlightId = Number(req.params.highlightId)
+    const { id, name, themeId } = isAuthorized(req)
+    try {
 
-    // const { colorId, pageId } = await Highlight.findOne({ raw: true, where: { id: highlightId } })
+        await Highlight.findOne(findColorIdAndPageId(highlightId))
+            .then(async ele => {
+                if (!colorHex) {
+                    await Page.update({ text: text }, { where: { id: ele.pageId } })
+                } else if (!text) {
+                    await Color.findOne(findColorId(themeId, colorHex)).then(async col => {
+                        await Highlight.update({ colorId: col.id }, { where: { id: highlightId } })
+                    })
+                } else {
+                    await Page.update({ text: text }, { where: { id: ele.pageId } })
+                    await Color.findOne(findColorId(themeId, colorHex)).then(async col => {
+                        await Highlight.update({ colorId: col.id }, { where: { id: highlightId } })
+                    })
+                }
 
-    // if (!colorHex) {
-    //     await Page.update({ text: text }, { where: { pageId: pageId, } })
-    // } else if (!text) {
-    //     const findColor = await Color.findOne({ raw: true, where: { themeId: themeId, colorHex: colorHex } })
-    //     await Highlight.update({ colorId: findColor.colorHex })
-    // } else {
+                res.status(201).json({
+                    "highlightId": ele.id,
+                    "userId": userId,
+                    "pageId": ele.pageId,
+                    "colorHex": colorHex,
+                    "text": text
+                })
+            })
 
-    // }
-
-    // res.status(201).json({{
-    //     "highlightId": 123,
-    //     "userId": 12312,
-    //     "pageId": 123,
-    //     "colorHex": "#fffff8",
-    //     "text": "변경된 텍스트입니다"
-    // }})
+    } catch (error) {
+        console.log(error)
+    }
 }

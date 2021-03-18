@@ -4,6 +4,21 @@ module.exports = {
     },
 
     checkValidColor: (colorHex) => {
-        return { raw: true, where: { colorHex: colorHex }, attributes: ["id"] }
+        return {
+            raw: true,
+            where: { colorHex: colorHex },
+            attributes: ["id"],
+        }
+    },
+    findColorId: (themeId, colorHex) => {
+        return {
+            raw: true,
+            where: {
+                themeId: themeId,
+                colorHex: colorHex
+            },
+            attributes: ["id"]
+        }
     }
+
 }

@@ -18,11 +18,15 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       })
-      Color.belongsToMany(models.Page, {
-        through: 'Highlight',
-        foreignKey: 'pageId',
-        onDelete: 'cascade'
+      Color.hasMany(models.Highlight, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       })
+      // Color.belongsToMany(models.Page, {
+      //   through: 'Highlight',
+      //   foreignKey: 'pageId',
+      //   onDelete: 'cascade'
+      // })
     }
   };
   Color.init({
