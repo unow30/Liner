@@ -14,5 +14,18 @@ module.exports = {
         }
     },
 
+    getHighlightPageColor: (pageId, Color, Page) => {
+        return {
+            raw: true,
+            where: {
+                pageId: pageId
+            },
+            attributes: [["id", "highlightId"], "pageId"],
+            include: [
+                { model: Color, attributes: ["colorHex"] },
+                { model: Page, attributes: ["text"] }
+            ]
+        }
+    }
 
 }

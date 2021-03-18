@@ -7,4 +7,7 @@ module.exports = {
         }
     },
 
+    findPageId: (pageUrl, userId) => {
+        return { raw: true, where: { pageUrl: pageUrl, userId: userId }, attributes: ['id', 'text'] }
+    }
 }
