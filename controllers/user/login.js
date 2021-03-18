@@ -4,7 +4,7 @@ const {
     sendRefreshToken,
     sendAccessToken
 } = require('../tokenFunctions')
-const { user, color } = require('../../models')
+const { User, Color } = require('../../models')
 const { findUserNameInDB, validUserLogin, tokenAlements } = require('../../options/userOptions')
 const { getThemeColor } = require('../../options/colorOptions')
 require('dotenv').config()
@@ -12,10 +12,10 @@ require('dotenv').config()
 module.exports = async (req, res) => {
     const { name, password } = req.body
     try {
-        const validUser = await user.findOne(findUserNameInDB(name))
-        const loginUser = await user.findOne(validUserLogin(validUser.name, password))
+        const validUser = await User.findOne(findUserNameInDB(name))
+        const loginUser = await User.findOne(validUserLogin(validUser.name, password))
         if (loginUser) {
-            const colorInfo = await color.findAll(getThemeColor(loginUser.themeId,))
+            const colorInfo = await Color.findAll(getThemeColor(loginUser.themeId,))
             const accessToken = generateAccessToken(tokenAlements(loginUser));
             const refreshToken = generateRefreshToken(tokenAlements(loginUser));
 

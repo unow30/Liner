@@ -1,4 +1,3 @@
-const { user } = require('../../models')
 
 module.exports = (req, res) => {
     const authorization = req.headers.authorization

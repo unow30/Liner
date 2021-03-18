@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class page extends Model {
+  class Page extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,21 +11,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      page.belongsToMany(models.color, {
+      Page.belongsTo(models.User, {
         onDelete: 'CASCADE',
-        through: 'highlights',
         foreignKey: {
+          name: 'userId',
           allowNull: false
         }
       })
+
+      Page.belongsToMany(models.Color, {
+        through: 'Highlight',
+        foreignKey: 'colorId',
+        onDelete: 'cascade'
+      })
     }
   };
-  page.init({
+  Page.init({
+    userId: DataTypes.INTEGER,
     pageUrl: DataTypes.STRING,
     text: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'page',
+    modelName: 'Page',
   });
-  return page;
+  return Page;
 };

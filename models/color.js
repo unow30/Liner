@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class color extends Model {
+  class Color extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,21 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      color.belongsToMany(models.page, {
+      Color.belongsTo(models.Theme, {
         onDelete: 'CASCADE',
-        through: 'highlights',
         foreignKey: {
+          name: 'themeId',
           allowNull: false
         }
       })
+      Color.belongsToMany(models.Page, {
+        through: 'Highlight',
+        foreignKey: 'pageId',
+        onDelete: 'cascade'
+      })
     }
   };
-  color.init({
+  Color.init({
+    themeId: DataTypes.INTEGER,
     num: DataTypes.INTEGER,
-    colorhex: DataTypes.STRING
+    colorHex: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'color',
+    modelName: 'Color',
   });
-  return color;
+  return Color;
 };

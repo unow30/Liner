@@ -1,4 +1,4 @@
-const { user } = require('../../models')
+const { User } = require('../../models')
 const { userCreateOptions } = require('../../options/userOptions')
 
 //'../../lib/SHA256'에서 자동으로 가져오기 module export= (property) export=: (s: any) => string
@@ -6,7 +6,7 @@ const { userCreateOptions } = require('../../options/userOptions')
 module.exports = async (req, res) => {
     const { name, password } = req.body
     try {
-        const [userInfo, created] = await user.findOrCreate(userCreateOptions(name, password))
+        const [userInfo, created] = await User.findOrCreate(userCreateOptions(name, password))
         if (created) {
             res.status(201).json({ "message": "ok" })
         } else {

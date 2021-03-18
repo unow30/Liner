@@ -1,5 +1,5 @@
 module.exports = {
-    createNewHighlights: (colorId, pageId) => {
+    createNewHighlight: (colorId, pageId) => {
         return {
             colorId: colorId,
             pageId: pageId
