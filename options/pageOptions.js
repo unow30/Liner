@@ -9,5 +9,15 @@ module.exports = {
 
     findPageId: (pageUrl, userId) => {
         return { raw: true, where: { pageUrl: pageUrl, userId: userId }, attributes: ['id', 'text'] }
+    },
+
+    findUserPages: (userId, Highlight) => {
+        return {
+            raw: true,
+            where: { userId: userId },
+            attributes: [['id', 'pageId'], 'pageUrl', 'text'],
+            include: [
+                { model: Highlight, attributes: ["id", "colorId"] }]
+        }
     }
 }

@@ -13,8 +13,8 @@ module.exports = async (req, res) => {
         if (id === userId) {
             const pageInfo = await Page.create(pageCreateOptions(id, pageUrl, text))
             const colorInfo = await Color.findOne(checkValidColor(colorHex))
-            const highlightInfo = await Highlight.create(createNewHighlight(colorInfo.id, pageInfo.id))
-
+            const highlightInfo = await Highlight.create(createNewHighlight(colorInfo["id"], pageInfo.id))
+            // createNewHighlight(colorInfo.id, pageInfo.id)
             res.status(201).json({
                 "highlightId": highlightInfo['id'],
                 "userId": userId,

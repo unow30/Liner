@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 module.exports = {
     createNewHighlight: (colorId, pageId) => {
         return {
@@ -20,10 +21,17 @@ module.exports = {
             where: {
                 pageId: pageId
             },
-            attributes: [["id", "highlightId"], "pageId"],
+            attributes: [
+                ["id", "highlightId"],
+                "pageId",
+                'color.colorHex',
+                [Sequelize.literal('`Color`.`colorHex`'), 'colorHex'],
+                'Page.text',
+                [Sequelize.literal('`Page`.`text`'), 'text'],
+            ],
             include: [
-                { model: Color, attributes: ["colorHex"] },
-                { model: Page, attributes: ["text"] }
+                { model: Color, attributes: [] },
+                { model: Page, attributes: [] }
             ]
         }
     }
