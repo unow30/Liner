@@ -1,0 +1,556 @@
+{
+	"info": {
+		"_postman_id": "997ae1a2-97a9-4c5c-a398-095aa2cd28aa",
+		"name": "liner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "user/signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"라이너 유저1\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/user/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								"signup"
+							]
+						},
+						"description": "- 이름과 패스워드를 입력하면 db에 저장됩니다.\n- 패스워드는 sha256+salt로 저장됩니다.\n\n```js\n   const [userInfo, created] = await User.findOrCreate(userCreateOptions(name, password))\n        if (created) {\n            res.status(201).json({ \"message\": \"ok\" })\n        } else {\n            res.status(409).json({ \"error\": \"user is already exist\" })\n        }\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "user/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"라이너 유저1\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								"login"
+							]
+						},
+						"description": "- 처음 유저이름을 db에서 찾아봅니다.\n- 이름이 있으면 이름과 sha256(패스워드+salt)값을 db에서 찾아봅니다.\n- 본인확인이 된다면 accessToken과 refreshToken을 저장합니다.\n\n```js\n  const validUser = await User.findOne(findUserNameInDB(name))\n        const loginUser = await User.findOne(validUserLogin(validUser.name, password))\n        if (loginUser) {\n            const colorInfo = await Color.findAll(getThemeColor(loginUser.themeId,))\n            const accessToken = generateAccessToken(tokenAlements(loginUser));\n            const refreshToken = generateRefreshToken(tokenAlements(loginUser));\n\n            sendRefreshToken(res, refreshToken)\n            sendAccessToken(res, accessToken, colorInfo)\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "user/logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IuudvOydtOuEiCDsnKDsoIAxIiwicGFzc3dvcmQiOiJkZjNiNTg1Y2E5ZDgzOTlhNzI0NWQzM2U1NzE5NTQ5NTIxNmJiMjQzZDgzMTZlMTg2YjFlY2E5NDU4ZWFlNzRjIiwidGhlbWVJZCI6MSwiaWF0IjoxNjE2MTMyMjcxLCJleHAiOjE2MTYxMzk0NzF9.BhC4tVO-ibL9dM_Bnoi58McARBz_0vEzLY91l4josj8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/user/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"user",
+								"logout"
+							]
+						},
+						"description": "- 토큰값이 있다면 logout이 진행됩니다.\n- 토큰값을 삭제하고 로그아웃 메시지를 보냅니다.\n\n```js\n    const authorization = req.headers.authorization\n    if (!authorization) {\n        res.status(404).json({ \"error\": \"it can't logout\" })\n    } else {\n        req.headers.authorization = null\n        res.clearCookie('refreshToken')\n        res.status(200).json({ \"message\": \"logout success\" })\n    }\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "highlight",
+			"item": [
+				{
+					"name": "highlight/create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IuudvOydtOuEiCDsnKDsoIAxIiwicGFzc3dvcmQiOiJkZjNiNTg1Y2E5ZDgzOTlhNzI0NWQzM2U1NzE5NTQ5NTIxNmJiMjQzZDgzMTZlMTg2YjFlY2E5NDU4ZWFlNzRjIiwidGhlbWVJZCI6MSwiaWF0IjoxNjE2MTMyMjcxLCJleHAiOjE2MTYxMzk0NzF9.BhC4tVO-ibL9dM_Bnoi58McARBz_0vEzLY91l4josj8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 1,\r\n  \"pageUrl\": \"www.kakao.com\",\r\n  \"colorHex\": \"#ffff8d\",\r\n  \"text\": \"지워버릴 텍스트\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/highlight/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"highlight",
+								"create"
+							]
+						},
+						"description": "- barear token값을 매번 확인합니다.\n- 토큰값을 해독하여 유저정보를 확인합니다.\n```js\n isAuthorized: (req) => {\n    const authorization = req.headers[\"authorization\"];\n    if (!authorization) {\n      return null;\n    }\n    const token = authorization.split(\"Bearer \")[1];\n    try {\n      return verify(token, process.env.ACCESS_SECRET);\n    } catch (err) {\n      return \"fail\";\n    }\n  },\n```\n- 모든 값을 입력한다면 response로 다음과 같은 데이터를 보냅니다.\n```js\n{\n    \"highlightId\": 1,\n    \"userId\": 1,\n    \"pageId\": 1,\n    \"colorHex\": \"#ffff8d\",\n    \"text\": \"구글에서 가져온 텍스트1\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "highlight/update/:highlightId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IuudvOydtOuEiCDsnKDsoIAxIiwicGFzc3dvcmQiOiJkZjNiNTg1Y2E5ZDgzOTlhNzI0NWQzM2U1NzE5NTQ5NTIxNmJiMjQzZDgzMTZlMTg2YjFlY2E5NDU4ZWFlNzRjIiwidGhlbWVJZCI6MSwiaWF0IjoxNjE2MTMyMjcxLCJleHAiOjE2MTYxMzk0NzF9.BhC4tVO-ibL9dM_Bnoi58McARBz_0vEzLY91l4josj8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 1,\r\n  \"text\": \"수정한 텍스트1.\",\r\n  \"colorHex\": \"#ffd5c8\"\r\n  \r\n}    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/highlight/update/:highlightId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"highlight",
+								"update",
+								":highlightId"
+							],
+							"variable": [
+								{
+									"key": "highlightId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "- highlightId는 path parameter로 받습니다.\n- text가 변경되면 pages table의 해당 text를 변경합니다.\n- colorHex가 변경되면 highlights table의 해당 colorId를 변경합니다.(color 관련값은 지워지지 않고 변경됩니다.)\n\n```js\n  await Highlight.findOne(findColorIdAndPageId(highlightId))\n                .then(async ele => {\n                    if (!colorHex) {\n                        await Page.update({ text: text }, { where: { id: ele.pageId } })\n                    } else if (!text) {\n                        await Color.findOne(findColorId(themeId, colorHex)).then(async col => {\n                            await Highlight.update({ colorId: col.id }, { where: { id: highlightId } })\n                        })\n                    } else {\n                        await Page.update({ text: text }, { where: { id: ele.pageId } })\n                        await Color.findOne(findColorId(themeId, colorHex)).then(async col => {\n                            await Highlight.update({ colorId: col.id }, { where: { id: highlightId } })\n                        })\n                    }\n```\n- 변경이 되면 다음의 같은 값을 response로 보냅니다.\n```js\n{\n    \"highlightId\": 1,\n    \"userId\": 1,\n    \"pageId\": 1,\n    \"colorHex\": \"#ffd5c8\",\n    \"text\": \"수정한 텍스트1.\"\n}\n```"
+					},
+					"response": [
+						{
+							"name": "highlight/update/:highlightId",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 1,\r\n    \"text\": \"변경된 텍스트입니다\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/highlight/update/:highlightId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"highlight",
+										"update",
+										":highlightId"
+									],
+									"variable": [
+										{
+											"key": "highlightId",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"highlightId\": 3,\n    \"userId\": 1,\n    \"pageId\": 4,\n    \"text\": \"변경된 텍스트입니다\"\n}"
+						},
+						{
+							"name": "highlight/update/:highlightId",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 1,\r\n    \"colorHex\": \"#a5f2e9\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/highlight/update/:highlightId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"highlight",
+										"update",
+										":highlightId"
+									],
+									"variable": [
+										{
+											"key": "highlightId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"highlightId\": 1,\n    \"userId\": 1,\n    \"pageId\": 2,\n    \"colorHex\": \"#a5f2e9\"\n}"
+						}
+					]
+				},
+				{
+					"name": "delete/:highlightId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IuudvOydtOuEiCDsnKDsoIAxIiwicGFzc3dvcmQiOiJkZjNiNTg1Y2E5ZDgzOTlhNzI0NWQzM2U1NzE5NTQ5NTIxNmJiMjQzZDgzMTZlMTg2YjFlY2E5NDU4ZWFlNzRjIiwidGhlbWVJZCI6MSwiaWF0IjoxNjE2MTMyMjcxLCJleHAiOjE2MTYxMzk0NzF9.BhC4tVO-ibL9dM_Bnoi58McARBz_0vEzLY91l4josj8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"userId\": 1}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/highlight/delete/:highlightId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"highlight",
+								"delete",
+								":highlightId"
+							],
+							"variable": [
+								{
+									"key": "highlightId",
+									"value": "7"
+								}
+							]
+						},
+						"description": "- highlightId는 path parameter로 받습니다.\n- userId를 받고 본인확인이 완료되면, 해당 highlights table row와 page row만 지워집니다. color table은 지워지지 않습니다.\n\n```js\nawait Highlight.findOne(findColorIdAndPageId(highlightId)).then(async el => {\n                await Page.destroy({ where: { id: el.pageId } })\n            })\n            await Highlight.destroy({\n                where: {\n                    id: highlightId\n                }\n            });\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "myhighlights",
+			"item": [
+				{
+					"name": "myhighlights/highlights",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IuudvOydtOuEiCDsnKDsoIAxIiwicGFzc3dvcmQiOiJkZjNiNTg1Y2E5ZDgzOTlhNzI0NWQzM2U1NzE5NTQ5NTIxNmJiMjQzZDgzMTZlMTg2YjFlY2E5NDU4ZWFlNzRjIiwidGhlbWVJZCI6MSwiaWF0IjoxNjE2MTMyMjcxLCJleHAiOjE2MTYxMzk0NzF9.BhC4tVO-ibL9dM_Bnoi58McARBz_0vEzLY91l4josj8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/myhighlights/highlights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"myhighlights",
+								"highlights"
+							]
+						},
+						"description": "- userId를 받으면 userId로 생성한 pages, highlights, color 테이블을 조인하여 가져옵니다.\n- 가져온 값을 forEach로 수정합니다.\n\n```js\n if (id === userId) {\n            const pageInfo = await Page.findAll({ raw: true, userId: userId, attributes: [[\"id\", \"pageId\"], \"pageUrl\"] })\n            let arr = pageInfo.map(el => {\n                return el.pageId\n            })\n\n            const result = await Highlight.findAll(getHighlightPageColor(arr, Color, Page))\n            result.forEach(el => { el['userId'] = userId })\n\n            pageInfo.forEach((el, idx) => {\n                el[\"highlights\"] = result[idx]\n            })\n            res.status(200).json(pageInfo)\n        }\n//response값\n\n[\n    {\n        \"pageId\": 1,\n        \"pageUrl\": \"www.google.com\",\n        \"highlights\": {\n            \"highlightId\": 1,\n            \"pageId\": 1,\n            \"colorHex\": \"#ffd5c8\",\n            \"text\": \"수정한 텍스트1.\",\n            \"userId\": 1\n        }\n    },\n    {\n        \"pageId\": 2,\n        \"pageUrl\": \"www.google.com\",\n        \"highlights\": {\n            \"highlightId\": 2,\n            \"pageId\": 2,\n            \"colorHex\": \"#ffff8d\",\n            \"text\": \"구글에서 가져온 텍스트2\",\n            \"userId\": 1\n        }\n    },\n    {\n        \"pageId\": 3,\n        \"pageUrl\": \"www.google.com\",\n        \"highlights\": {\n            \"highlightId\": 3,\n            \"pageId\": 3,\n            \"colorHex\": \"#a5f2e9\",\n            \"text\": \"구글에서 가져온 텍스트3\",\n            \"userId\": 1\n        }\n    },\n    {\n        \"pageId\": 4,\n        \"pageUrl\": \"www.naver.com\",\n        \"highlights\": {\n            \"highlightId\": 4,\n            \"pageId\": 4,\n            \"colorHex\": \"#ffd5c8\",\n            \"text\": \"네이버에서 가져온 텍스트3\",\n            \"userId\": 1\n        }\n    },\n    {\n        \"pageId\": 5,\n        \"pageUrl\": \"www.naver.com\",\n        \"highlights\": {\n            \"highlightId\": 5,\n            \"pageId\": 5,\n            \"colorHex\": \"#ffd5c8\",\n            \"text\": \"네이버에서 가져온 텍스트2\",\n            \"userId\": 1\n        }\n    },\n    {\n        \"pageId\": 6,\n        \"pageUrl\": \"www.naver.com\",\n        \"highlights\": {\n            \"highlightId\": 6,\n            \"pageId\": 6,\n            \"colorHex\": \"#ffff8d\",\n            \"text\": \"네이버에서 가져온 텍스트1\",\n            \"userId\": 1\n        }\n    }\n]\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "myhighlights/pages",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IuudvOydtOuEiCDsnKDsoIAxIiwicGFzc3dvcmQiOiJkZjNiNTg1Y2E5ZDgzOTlhNzI0NWQzM2U1NzE5NTQ5NTIxNmJiMjQzZDgzMTZlMTg2YjFlY2E5NDU4ZWFlNzRjIiwidGhlbWVJZCI6MSwiaWF0IjoxNjE2MTMyMjcxLCJleHAiOjE2MTYxMzk0NzF9.BhC4tVO-ibL9dM_Bnoi58McARBz_0vEzLY91l4josj8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 1,\r\n  \"pageId\": 2,\r\n  \"pageUrl\":\"www.google.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/myhighlights/pages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"myhighlights",
+								"pages"
+							]
+						},
+						"description": "- pageId값을 받으면 pageId와 관련된 유저의 highlight 정보 1개를 가져옵니다.\n```js\n//request\n{\n  \"userId\": 1,\n  \"pageId\": 2\n}\n//response\n[\n    {\n        \"highlightId\": 2,\n        \"pageId\": 2,\n        \"colorHex\": \"#ffd5c8\",\n        \"text\": \"구글에서 가져온 텍스트2.\",\n        \"userId\": 1\n    }\n]\n```\n\n- pageUrl값을 받으면 userId가 작성한 pageUrl값을 지닌 모든 page정보를 highlight와 color와 함께 가져옵니다.\n```js\n//request\n{\n  \"userId\": 1,\n  \"pageUrl\":\"www.naver.com\"\n}\n//response\n[\n    {\n        \"highlightId\": 4,\n        \"pageId\": 4,\n        \"colorHex\": \"#ffd5c8\",\n        \"text\": \"네이버에서 가져온 텍스트3\",\n        \"userId\": 1\n    },\n    {\n        \"highlightId\": 5,\n        \"pageId\": 5,\n        \"colorHex\": \"#ffd5c8\",\n        \"text\": \"네이버에서 가져온 텍스트2\",\n        \"userId\": 1\n    },\n    {\n        \"highlightId\": 6,\n        \"pageId\": 6,\n        \"colorHex\": \"#ffff8d\",\n        \"text\": \"네이버에서 가져온 텍스트1\",\n        \"userId\": 1\n    }\n]\n```\n\n- pageId, pageUrl 둘 다 받으면 pageId를 우선합니다.\n\n```js\n//request\n{\n  \"userId\": 1,\n  \"pageId\": 2,\n  \"pageUrl\":\"www.google.com\"\n}\n//response\n[\n    {\n        \"highlightId\": 2,\n        \"pageId\": 2,\n        \"colorHex\": \"#ffff8d\",\n        \"text\": \"구글에서 가져온 텍스트2\",\n        \"userId\": 1\n    }\n]\n```"
+					},
+					"response": [
+						{
+							"name": "myhighlights/pages",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": 1,\r\n  \"pageUrl\":\"www.naver.com\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/myhighlights/pages",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"myhighlights",
+										"pages"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "[\n    {\n        \"highlightId\": 4,\n        \"pageId\": 5,\n        \"Color.colorHex\": \"#a5f2e9\",\n        \"Page.text\": \"네이버에서 가져온 텍스트1.\",\n        \"userId\": 1\n    },\n    {\n        \"highlightId\": 5,\n        \"pageId\": 6,\n        \"Color.colorHex\": \"#a5f2e9\",\n        \"Page.text\": \"네이버에서 가져온 텍스트2.\",\n        \"userId\": 1\n    },\n    {\n        \"highlightId\": 6,\n        \"pageId\": 7,\n        \"Color.colorHex\": \"#a5f2e9\",\n        \"Page.text\": \"네이버에서 가져온 텍스트3.\",\n        \"userId\": 1\n    }\n]"
+						},
+						{
+							"name": "myhighlights/pages",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": 1,\r\n  \"pageId\": 2,\r\n  \"pageUrl\":\"www.google.com\"\r\n}\r\n// pageId를 우선해서 부른다.",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/myhighlights/pages",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"myhighlights",
+										"pages"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "[\n    {\n        \"highlightId\": 2,\n        \"pageId\": 2,\n        \"Color.colorHex\": \"#ffd5c8\",\n        \"Page.text\": \"구글에서 가져온 텍스트2.\",\n        \"userId\": 1\n    }\n]"
+						},
+						{
+							"name": "myhighlights/pages",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userId\": 1,\r\n  \"pageId\": 4\r\n}\r\n//",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/myhighlights/pages",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"myhighlights",
+										"pages"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "[\n    {\n        \"highlightId\": 3,\n        \"pageId\": 4,\n        \"Color.colorHex\": \"#ffd5c8\",\n        \"Page.text\": \"수정한 텍스트1.\",\n        \"userId\": 1\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "settings",
+			"item": [
+				{
+					"name": "highlights",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IuudvOydtOuEiCDsnKDsoIAxIiwicGFzc3dvcmQiOiJkZjNiNTg1Y2E5ZDgzOTlhNzI0NWQzM2U1NzE5NTQ5NTIxNmJiMjQzZDgzMTZlMTg2YjFlY2E5NDU4ZWFlNzRjIiwidGhlbWVJZCI6MSwiaWF0IjoxNjE2MTMyMjcxLCJleHAiOjE2MTYxMzk0NzF9.BhC4tVO-ibL9dM_Bnoi58McARBz_0vEzLY91l4josj8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 1,\r\n    \"themeId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/settings/highlights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"settings",
+								"highlights"
+							]
+						},
+						"description": "- theme가 변경되면 highlights table의 colorId값이 변경됩니다.\n\n>theme1 colorId: 1,2,3\n![](https://images.velog.io/images/unow30/post/27f73c82-f74c-4723-a40b-4fcbc43bd9a1/image.png)\n\n>theme2 colorId: 4,5,6\n![](https://images.velog.io/images/unow30/post/e588cf14-a141-4b28-8fe6-65c9458653d1/image.png)\n\n>theme3 colorId: 7,8,9\n![](https://images.velog.io/images/unow30/post/ed594351-e8d0-4450-a33d-fba918fdfc98/image.png)\n\n```js\n await User.update({ themeId: themeId }, { raw: true, where: { id: userId } })\n            await Page.findAll(getHighlightInfo(userId, Highlight)).then(async res => {\n\n                const checkList = await Color.findAll(changedThemeInfo(themeId))\n                const pageIdArr = res.map(ele => { return ele['pageId'] })\n                const colorIdArr = res.map(elee => { return elee['colorId'] })\n                const prevColorInfo = await Color.findAll(getPrevColorInfo(colorIdArr, Highlight))\n\n                prevColorInfo.forEach(async (el, idx) => {\n                    checkList.forEach(async ele => {\n                        if (ele.num === el.num) {\n                            await Highlight.update({ colorId: ele.id }, { where: { pageId: pageIdArr[idx] } })\n                        }\n                    })\n                })\n            })\n            res.status(200).json(\"theme change\")\n```"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
