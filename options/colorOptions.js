@@ -19,6 +19,14 @@ module.exports = {
             },
             attributes: ["id"]
         }
-    }
+    },
+
+    changedThemeInfo: (themeId) => {
+        return { raw: true, where: { themeId: themeId }, attributes: ["id", "themeId", "colorHex", "num"] }
+    },
+
+    getPrevColorInfo: (colorIdArr, Highlight) => {
+        return { raw: true, where: { id: colorIdArr }, attributes: ["id", "themeId", "colorHex", "num"], include: [{ model: Highlight, attributes: ['pageId'] }] }
+    },
 
 }

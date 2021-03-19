@@ -18,9 +18,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 
-app.get('/new', (req, res) => {
-    res.json("데이터 표시?")
-})
 app.use('/user', userRouter)
 app.use('/myhighlights', myhighlightsRouter)
 app.use('/highlight', highlightRouter)

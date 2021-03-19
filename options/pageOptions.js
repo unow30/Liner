@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 module.exports = {
     pageCreateOptions: (id, pageUrl, text) => {
         return {
@@ -18,6 +20,13 @@ module.exports = {
             attributes: [['id', 'pageId'], 'pageUrl', 'text'],
             include: [
                 { model: Highlight, attributes: ["id", "colorId"] }]
+        }
+    },
+    getHighlightInfo: (userId, Highlight) => {
+        return {
+            raw: true, where: { userId: userId },
+            attributes: [["id", "pageId"], "highlights.colorId", [Sequelize.literal('`highlights`.`colorId`'), 'colorId']],
+            include: { model: Highlight, attributes: [] }
         }
     }
 }

@@ -1,8 +1,9 @@
 const {
     isAuthorized
 } = require('../tokenFunctions')
-const { Page, Color, Highlight } = require('../../models')
+const { Page, Highlight } = require('../../models')
 const { findColorIdAndPageId } = require('../../options/highlightOptions')
+
 module.exports = async (req, res) => {
     const { highlightId } = req.params
     const { userId } = req.body
