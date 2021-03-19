@@ -1,11 +1,11 @@
 # Liner 사전과제
 
 ## 자기소개
-  안녕하십니까, 라이너 개발자 실무과제 백엔드 과제를 제출하게된 코드스테이츠 24기 수료생 김윤호 입니다.
+  안녕하십니까, 라이너 개발자 실무과제 백엔드 과제를 제출하게 된 코드스테이츠 24기 수료생 김윤호입니다.
   
   실제 업무처럼 주어진 조건을 가지고 백엔드 서버를 만드는 과정에서 많은 성취감과 아쉬움을 느꼈습니다.
   
-  코드 가독성과 라우팅에 집중해서 이전보다 더욱 세분화되고 유지보수가 쉬운 코드를 만들었다는 점에서 가장 큰 성취감을 느꼈습니다.
+  코드 가독성과 라우팅에 집중해서 이전보다 더욱 세분되고 유지보수가 쉬운 코드를 만들었다는 점에서 가장 큰 성취감을 느꼈습니다.
   
   반면 sequelize 연관관계 설정과 효율적인 db 접근법을 구현하는 과정은 생각만큼 이뤄지질 않아서 아쉬움으로 남았습니다.
   
@@ -16,6 +16,19 @@
 ## db 스키마
 - [dbdiagram](https://dbdiagram.io/d/604747a1fcdcb6230b233fdf)
 ![](https://images.velog.io/images/unow30/post/812086fe-6e98-46ef-97df-cb586f125517/image.png)
+
+## process.env 키값
+```
+BASE_URL = http://localhost:3000
+DB_USER_NAME = 
+DB_USER_PASSWORD = 
+DB_NAME = liner
+ACCESS_SECRET = accessLiner
+REFRESH_SECRET = refreshLiner
+salt = 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
+```
+## 라우팅 경로
+![](https://images.velog.io/images/unow30/post/a3ae3fea-6170-401d-af1b-ef1b2fc2c069/image.png)
 
 ## 기능소개
 ### - 회원가입
